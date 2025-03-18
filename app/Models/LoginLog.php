@@ -12,7 +12,7 @@ class LoginLog extends Model
     protected $fillable = [
         'user_id',
         'ip_address',
-        'login_time'
+        'login_time',
     ];
 
     public function user()

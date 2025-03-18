@@ -13,9 +13,10 @@ class CrocodilesController extends Controller
 {
     public function index(): Response
     {
-        if (!Auth::user()->hasPermission('manage_crocodiles')) {
+        if (! Auth::user()->hasPermission('manage_crocodiles')) {
             abort(403, 'You do not have permission to access this page.');
         }
+
         return Inertia::render('Crocodiles/Index', [
             'crocodiles' => Auth::user()->account->crocodiles()
                 ->orderBy('name')

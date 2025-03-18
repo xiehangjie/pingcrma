@@ -13,7 +13,7 @@ class LoginLogController extends Controller
         $loginLogs = LoginLog::with('user')->latest()->paginate(10);
 
         return Inertia::render('LoginLogs/Index', [
-            'loginLogs' => $loginLogs
+            'loginLogs' => $loginLogs,
         ]);
     }
 }

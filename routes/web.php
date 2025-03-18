@@ -156,7 +156,6 @@ Route::post('crocodiles', [CrocodilesController::class, 'store'])
     ->name('crocodiles.store')
     ->middleware('auth');
 
-    Route::get('login-logs', [LoginLogController::class, 'index'])
+Route::get('login-logs', [LoginLogController::class, 'index'])
     ->name('login-logs')
     ->middleware('auth');
-    
