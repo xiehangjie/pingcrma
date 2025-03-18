@@ -21,4 +21,10 @@ class Account extends Model
     {
         return $this->hasMany(Contact::class);
     }
+    
+    // 新增 crocodiles 关联方法
+    public function crocodiles(): HasMany
+    {
+        return $this->hasMany(Crocodile::class);
+    }
 }

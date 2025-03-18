@@ -13,6 +13,7 @@
 
     @vite('resources/js/app.js')
     @inertiaHead
+    <title>小型鳄鱼养殖场管理系统</title>
 </head>
 <body class="font-sans leading-none text-gray-700 antialiased">
     @inertia
