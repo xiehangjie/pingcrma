@@ -12,8 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('crocodiles', function (Blueprint $table) {
-            $table->unsignedBigInteger('account_id')->nullable();
-            // 如果需要添加外键约束，可以添加以下代码
+            $table->unsignedInteger('account_id')->nullable();
             $table->foreign('account_id')->references('id')->on('accounts')->onDelete('cascade');
         });
     }
@@ -26,7 +25,6 @@ return new class extends Migration
         Schema::table('crocodiles', function (Blueprint $table) {
             $table->dropForeign(['account_id']);
             $table->dropColumn('account_id');
-            //
         });
     }
 };
