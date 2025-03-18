@@ -14,8 +14,8 @@ class Crocodile extends Model
     {
         return $this->belongsTo(Account::class);
     }
-    
+
     protected $fillable = [
-        'name', 'age', 'weight', 'pool_id'
+        'name', 'age', 'weight', 'pool_id',
     ];
 }

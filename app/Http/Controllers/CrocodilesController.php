@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Crocodile;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
@@ -17,7 +16,7 @@ class CrocodilesController extends Controller
         return Inertia::render('Crocodiles/Index', [
             'crocodiles' => Auth::user()->account->crocodiles()
                 ->orderBy('name')
-                ->get()
+                ->get(),
         ]);
     }
 
@@ -32,14 +31,14 @@ class CrocodilesController extends Controller
             'name' => ['required', 'max:100'],
             'age' => ['required', 'integer'],
             'weight' => ['required', 'numeric'],
-            'pool_id' => ['required', 'integer']
+            'pool_id' => ['required', 'integer'],
         ]);
 
         Auth::user()->account->crocodiles()->create([
             'name' => Request::get('name'),
             'age' => Request::get('age'),
             'weight' => Request::get('weight'),
-            'pool_id' => Request::get('pool_id')
+            'pool_id' => Request::get('pool_id'),
         ]);
 
         return Redirect::route('crocodiles')->with('success', '鳄鱼信息已添加。');
