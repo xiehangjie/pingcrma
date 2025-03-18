@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('contacts', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('account_id')->index();
+            $table->unsignedInteger('account_id')->index(); // 修改为 unsignedInteger 类型
             $table->integer('organization_id')->nullable()->index();
             $table->string('first_name', 25);
             $table->string('last_name', 25);
