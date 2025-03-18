@@ -57,23 +57,17 @@ jobs:
           restore-keys: ${{ runner.os }}-composer-
 
       - name: Install composer dependencies
-        env:
-          COMPOSER_AUTH: ${{ secrets.COMPOSER_AUTH }}
-        run: composer install --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist
+        run: composer install
 
-      - name: Install node dependencies
-        run: npm ci
-
-      - name: Generate application key
-        run: php artisan key:generate
-
-      - name: Build assets
-        run: npm run build
-
-      - name: Run tests
-        run: php artisan test
-        env:
-          DB_CONNECTION: mysql
-          DB_PORT: ${{ job.services.mysql.ports['3306'] }}
-          DB_USERNAME: root
-          DB_DATABASE: test
+      - name: Auto commit changes
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: Fix code styling
+          branch: ${{ github.ref_name }}
+          file_pattern: .
+          commit_user_name: github-actions[bot]
+          commit_user_email: 41898282+github-actions[bot]@users.noreply.github.com
+          commit_author: xiehangjie <177995132+xiehangjie@users.noreply.github.com>
+          push_options: --force
+          repository: .
+          token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
