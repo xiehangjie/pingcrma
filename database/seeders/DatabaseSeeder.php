@@ -17,14 +17,17 @@ class DatabaseSeeder extends Seeder
     {
         $account = Account::create(['name' => 'Acme Corporation']);
 
-        User::factory()->create([
-            'account_id' => $account->id,
-            'first_name' => 'John',
-            'last_name' => 'Doe',
-            'email' => 'johndoe@example.com',
-            'password' => 'secret',
-            'owner' => true,
-        ]);
+        // 使用 updateOrCreate 方法避免重复插入
+        User::updateOrCreate(
+            ['email' => 'johndoe@example.com'],
+            [
+                'account_id' => $account->id,
+                'first_name' => 'John',
+                'last_name' => 'Doe',
+                'password' => 'secret',
+                'owner' => true,
+            ]
+        );
 
         User::factory(5)->create(['account_id' => $account->id]);
 

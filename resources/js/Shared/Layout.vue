@@ -36,6 +36,7 @@
                   <Link class="block px-6 py-2 hover:text-white hover:bg-indigo-500" :href="`/users/${auth.user.id}/edit`">My Profile</Link>
                   <Link class="block px-6 py-2 hover:text-white hover:bg-indigo-500" href="/users">Manage Users</Link>
                   <Link class="block px-6 py-2 hover:text-white hover:bg-indigo-500" href="/crocodiles">鳄鱼信息列表</Link>
+                  <Link class="block px-6 py-2 hover:text-white hover:bg-indigo-500" href="/login-logs">Login Logs</Link>
                   <Link class="block px-6 py-2 w-full text-left hover:text-white hover:bg-indigo-500" href="/logout" method="delete" as="button">Logout</Link>
                 </div>
               </template>

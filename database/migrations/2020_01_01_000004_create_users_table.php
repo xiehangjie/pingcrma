@@ -21,6 +21,8 @@ return new class extends Migration
             $table->string('password')->nullable();
             $table->boolean('owner')->default(false);
             $table->string('photo_path', 100)->nullable();
+            // 在 up 方法中添加权限字段
+            $table->string('permissions')->nullable()->comment('用户权限，以逗号分隔的权限标识');
             $table->rememberToken();
             $table->timestamps();
             $table->softDeletes();
