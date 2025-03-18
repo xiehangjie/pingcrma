@@ -5,10 +5,10 @@ use App\Http\Controllers\ContactsController;
 use App\Http\Controllers\CrocodilesController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ImagesController;
+use App\Http\Controllers\LoginLogController;
 use App\Http\Controllers\OrganizationsController;
 use App\Http\Controllers\ReportsController;
 use App\Http\Controllers\UsersController;
-use App\Http\Controllers\LoginLogController;
 use Illuminate\Support\Facades\Route;
 
 /*
