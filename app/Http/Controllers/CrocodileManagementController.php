@@ -14,7 +14,7 @@ class CrocodileManagementController extends Controller
     // 鳄鱼信息列表
     public function crocodileIndex(): Response
     {
-        if (!Auth::user()->hasPermission('manage_crocodiles')) {
+        if (! Auth::user()->hasPermission('manage_crocodiles')) {
             abort(403, 'You do not have permission to access this page.');
         }
 
