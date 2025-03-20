@@ -42,46 +42,53 @@
       </div>
 
       <!-- 数据表格 -->
-      <div v-if="!$page.loading && !$page.error" class="bg-white rounded-xl shadow-lg overflow-hidden ring-1 ring-black ring-opacity-5">
+      <div v-if="!$page.loading && !$page.error" class="bg-white rounded-xl shadow-lg overflow-x-auto ring-1 ring-black ring-opacity-5">
         <table class="min-w-full divide-y divide-gray-200">
           <thead class="bg-gray-50">
             <tr>
-              <th class="px-6 py-4 text-left text-sm font-semibold text-gray-700 uppercase tracking-wider">
-                名称
-              </th>
-              <th class="px-6 py-4 text-left text-sm font-semibold text-gray-700 uppercase tracking-wider">
-                年龄
-              </th>
-              <th class="px-6 py-4 text-left text-sm font-semibold text-gray-700 uppercase tracking-wider">
-                体重 (kg)
-              </th>
-              <th class="px-6 py-4 text-left text-sm font-semibold text-gray-700 uppercase tracking-wider">
-                养殖池编号
-              </th>
-              <th class="px-6 py-4 text-left text-sm font-semibold text-gray-700 uppercase tracking-wider">
-                性别
-              </th>
-              <th class="px-6 py-4 text-left text-sm font-semibold text-gray-700 uppercase tracking-wider">
-                出生日期
-              </th>
-              <th class="px-6 py-4 text-left text-sm font-semibold text-gray-700 uppercase tracking-wider">
-                健康状况
-              </th>
-              <!-- 新增唯一身份标识列 -->
+              <!-- 唯一身份标识 -->
               <th class="px-6 py-4 text-left text-sm font-semibold text-gray-700 uppercase tracking-wider">
                 唯一身份标识
               </th>
-              <!-- 新增RFID电子标签列 -->
+              <!-- RFID电子标签 -->
               <th class="px-6 py-4 text-left text-sm font-semibold text-gray-700 uppercase tracking-wider">
                 RFID电子标签
               </th>
-              <!-- 新增物种类型列 -->
+              <!-- 物种类型 -->
               <th class="px-6 py-4 text-left text-sm font-semibold text-gray-700 uppercase tracking-wider">
                 物种类型
               </th>
-              <!-- 新增遗传谱系列 -->
+              <!-- 性别 -->
+              <th class="px-6 py-4 text-left text-sm font-semibold text-gray-700 uppercase tracking-wider">
+                性别
+              </th>
+              <!-- 出生日期 -->
+              <th class="px-6 py-4 text-left text-sm font-semibold text-gray-700 uppercase tracking-wider">
+                出生日期
+              </th>
+              <!-- 年龄 -->
+              <th class="px-6 py-4 text-left text-sm font-semibold text-gray-700 uppercase tracking-wider">
+                年龄
+              </th>
+              <!-- 体重 -->
+              <th class="px-6 py-4 text-left text-sm font-semibold text-gray-700 uppercase tracking-wider">
+                体重 (kg)
+              </th>
+              <!-- 养殖池编号 -->
+              <th class="px-6 py-4 text-left text-sm font-semibold text-gray-700 uppercase tracking-wider">
+                养殖池编号
+              </th>
+              <!-- 健康状况 -->
+              <th class="px-6 py-4 text-left text-sm font-semibold text-gray-700 uppercase tracking-wider">
+                健康状况
+              </th>
+              <!-- 遗传谱系 -->
               <th class="px-6 py-4 text-left text-sm font-semibold text-gray-700 uppercase tracking-wider">
                 遗传谱系
+              </th>
+              <!-- 操作 -->
+              <th class="px-6 py-4 text-left text-sm font-semibold text-gray-700 uppercase tracking-wider">
+                操作
               </th>
             </tr>
           </thead>
@@ -91,42 +98,66 @@
               :key="crocodile.id"
               class="hover:bg-gray-50 transition-colors cursor-pointer"
             >
-              <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                {{ crocodile.name }}
-              </td>
-              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                {{ crocodile.age }} 岁
-              </td>
-              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700 font-medium">
-                {{ crocodile.weight }}
-              </td>
-              <td class="px-6 py-4 whitespace-nowrap text-sm text-emerald-600 font-medium">
-                #{{ crocodile.pool_id }}
-              </td>
-              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">
-                {{ crocodile.gender }}
-              </td>
-              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">
-                {{ formatDate(crocodile.birth_date) }}
-              </td>
-              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">
-                {{ crocodile.health_status }}
-              </td>
-              <!-- 显示唯一身份标识 -->
+              <!-- 唯一身份标识 -->
               <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">
                 {{ crocodile.unique_id }}
               </td>
-              <!-- 显示RFID电子标签 -->
+              <!-- RFID电子标签 -->
               <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">
                 {{ crocodile.rfid_tag }}
               </td>
-              <!-- 显示物种类型 -->
+              <!-- 物种类型 -->
               <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">
                 {{ crocodile.species_type }}
               </td>
-              <!-- 显示遗传谱系 -->
+              <!-- 性别 -->
+              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">
+                {{ crocodile.gender }}
+              </td>
+              <!-- 出生日期 -->
+              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">
+                {{ formatDate(crocodile.birth_date) }}
+              </td>
+              <!-- 年龄 -->
+              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                {{ crocodile.age }} 岁
+              </td>
+              <!-- 体重 -->
+              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700 font-medium">
+                {{ crocodile.weight }}
+              </td>
+              <!-- 养殖池编号 -->
+              <td class="px-6 py-4 whitespace-nowrap text-sm text-emerald-600 font-medium">
+                #{{ crocodile.pool_id }}
+              </td>
+              <!-- 健康状况 -->
+              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">
+                {{ crocodile.health_status }}
+              </td>
+              <!-- 遗传谱系 -->
               <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">
                 {{ crocodile.genetic_lineage }}
+              </td>
+              <!-- 操作 -->
+              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">
+                <Link 
+                  class="inline-flex items-center px-4 py-2 bg-yellow-500 text-white font-medium rounded-md hover:bg-yellow-600 focus:ring-2 focus:ring-yellow-500 focus:ring-offset-2 focus:outline-none mr-2"
+                  :href="`/crocodile-management/basic-info/${crocodile.id}/edit`"
+                >
+                  <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>
+                  </svg>
+                  编辑
+                </Link>
+                <button 
+                  class="inline-flex items-center px-4 py-2 bg-red-500 text-white font-medium rounded-md hover:bg-red-600 focus:ring-2 focus:ring-red-500 focus:ring-offset-2 focus:outline-none"
+                  @click="deleteCrocodile(crocodile.id)"
+                >
+                  <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
+                  </svg>
+                  删除
+                </button>
               </td>
             </tr>
           </tbody>
@@ -145,8 +176,7 @@
 </template>
 
 <script>
-import { Head } from '@inertiajs/vue3'
-import { Link } from '@inertiajs/vue3'
+import { Head, Link } from '@inertiajs/vue3'
 import dayjs from 'dayjs'
 
 export default {
@@ -160,6 +190,11 @@ export default {
   methods: {
     formatDate(date) {
       return dayjs(date).format('YYYY-MM-DD')
+    },
+    deleteCrocodile(id) {
+      if (confirm('你确定要删除这条鳄鱼信息吗？')) {
+        this.$inertia.delete(`/crocodile-management/basic-info/${id}`)
+      }
     }
   }
 }

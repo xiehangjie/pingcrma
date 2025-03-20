@@ -16,12 +16,12 @@ return new class extends Migration
             $table->string('unique_id', 100)->unique();
             $table->string('rfid_tag', 100)->unique();
             $table->string('species_type', 100);
-            $table->enum('gender', ['公', '母']);
+            $table->enum('gender', ['雄性', '雌性']);
             $table->date('birth_date');
             $table->string('genetic_lineage', 255);
             $table->integer('age');
             $table->decimal('weight', 8, 2);
-            $table->integer('pool_id');
+            $table->bigInteger('pool_id');
             $table->string('health_status', 255);
             $table->timestamps();
 

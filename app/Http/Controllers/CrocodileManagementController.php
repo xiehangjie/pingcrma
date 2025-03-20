@@ -48,15 +48,15 @@ class CrocodileManagementController extends Controller
     public function crocodileStore(): RedirectResponse
     {
         Request::validate([
-            'unique_id' => ['required', 'max:100', 'unique:crocodiles,unique_id'],
-            'rfid_tag' => ['required', 'max:100', 'unique:crocodiles,rfid_tag'],
+            'unique_id' => ['required', 'max:100', 'unique:crocodiles,unique_id', 'regex:/^[A-Z]{3}-\d{12}-\d{6}$/'],
+            'rfid_tag' => ['required', 'max:100', 'unique:crocodiles,rfid_tag', 'regex:/^[A-Z0-9]{8}-[A-Z0-9]{16}$/'],
             'species_type' => ['required', 'max:100'],
-            'gender' => ['required', 'in:公,母'],
+            'gender' => ['required', 'in:雄性,雌性'],
             'birth_date' => ['nullable', 'date'],
             'genetic_lineage' => ['required', 'max:255'],
             'age' => ['required', 'integer', 'min:0'],
             'weight' => ['required', 'numeric', 'min:0'],
-            'pool_id' => ['required', 'integer'],
+            'pool_id' => ['required', 'integer', 'min:1'],
             'health_status' => ['nullable', 'string'],
         ]);
 
@@ -96,15 +96,15 @@ class CrocodileManagementController extends Controller
         }
 
         Request::validate([
-            'unique_id' => ['required', 'max:100'],
-            'rfid_tag' => ['required', 'max:100'],
+            'unique_id' => ['required', 'max:100', 'regex:/^[A-Z]{3}-\d{12}-\d{6}$/'],
+            'rfid_tag' => ['required', 'max:100', 'regex:/^[A-Z0-9]{8}-[A-Z0-9]{16}$/'],
             'species_type' => ['required', 'max:100'],
-            'gender' => ['required', 'in:公,母'],
+            'gender' => ['required', 'in:雄性,雌性'],
             'birth_date' => ['nullable', 'date'],
             'genetic_lineage' => ['required', 'max:255'],
             'age' => ['required', 'integer', 'min:0'],
             'weight' => ['required', 'numeric', 'min:0'],
-            'pool_id' => ['required', 'integer'],
+            'pool_id' => ['required', 'integer', 'min:1'],
             'health_status' => ['nullable', 'string'],
         ]);
 
