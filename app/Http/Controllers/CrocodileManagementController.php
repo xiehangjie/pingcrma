@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Crocodile;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Request;
 use Inertia\Inertia;
 use Inertia\Response;
-use App\Models\Crocodile;
 
 class CrocodileManagementController extends Controller
 {
@@ -29,13 +29,13 @@ class CrocodileManagementController extends Controller
             abort(403, 'You do not have permission to access this page.');
         }
 
-         // 获取鳄鱼信息列表，按照 unique_id 排序
-         $crocodiles = Crocodile::orderBy('unique_id')->get();
+        // 获取鳄鱼信息列表，按照 unique_id 排序
+        $crocodiles = Crocodile::orderBy('unique_id')->get();
 
-         // 返回渲染后的视图，并传递鳄鱼信息列表
-         return Inertia::render('Crocodiles/Management/BasicInfo/Index', [
-             'crocodiles' => $crocodiles
-         ]);
+        // 返回渲染后的视图，并传递鳄鱼信息列表
+        return Inertia::render('Crocodiles/Management/BasicInfo/Index', [
+            'crocodiles' => $crocodiles,
+        ]);
     }
 
     // 创建鳄鱼信息页面
@@ -135,4 +135,4 @@ class CrocodileManagementController extends Controller
 
         return Redirect::route('crocodile-management.basic-info')->with('success', '鳄鱼信息已删除。');
     }
-}    
+}

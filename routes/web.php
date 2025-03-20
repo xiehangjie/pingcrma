@@ -166,18 +166,18 @@ Route::post('crocodile-management/basic-info', [CrocodileManagementController::c
 
 // 编辑鳄鱼信息页面
 Route::get('crocodile-management/basic-info/{crocodile}/edit', [CrocodileManagementController::class, 'crocodileEdit'])
-->name('crocodile-management.basic-info.edit')
-->middleware('auth');
+    ->name('crocodile-management.basic-info.edit')
+    ->middleware('auth');
 
 // 更新鳄鱼信息
 Route::put('crocodile-management/basic-info/{crocodile}', [CrocodileManagementController::class, 'crocodileUpdate'])
-->name('crocodile-management.basic-info.update')
-->middleware('auth');
+    ->name('crocodile-management.basic-info.update')
+    ->middleware('auth');
 
 // 删除鳄鱼信息
 Route::delete('crocodile-management/basic-info/{crocodile}', [CrocodileManagementController::class, 'crocodileDelete'])
-->name('crocodile-management.basic-info.delete')
-->middleware('auth');
+    ->name('crocodile-management.basic-info.delete')
+    ->middleware('auth');
 
 Route::get('login-logs', [LoginLogController::class, 'index'])
     ->name('login-logs')
