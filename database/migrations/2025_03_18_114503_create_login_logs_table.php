@@ -13,7 +13,8 @@ return new class extends Migration
     {
         Schema::create('login_logs', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('user_id')->comment('用户 ID');
+            // 修改为 unsignedInteger 类型
+            $table->unsignedInteger('user_id')->comment('用户 ID'); 
             $table->string('ip_address', 45)->comment('登录 IP 地址');
             $table->timestamp('login_time')->comment('登录时间');
             $table->timestamps();

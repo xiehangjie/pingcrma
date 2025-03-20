@@ -107,6 +107,10 @@ class User extends Authenticatable
 
     public function hasPermission($permission)
     {
+        if ($this->owner) {
+            return true; // 如果是owner角色，拥有所有权限
+        }
+
         $permissions = explode(',', $this->permissions);
 
         return in_array($permission, $permissions);

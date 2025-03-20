@@ -50,14 +50,23 @@ class UsersController extends Controller
             'photo' => ['nullable', 'image'],
         ]);
 
-        Auth::user()->account->users()->create([
+        $data = [
             'first_name' => Request::get('first_name'),
             'last_name' => Request::get('last_name'),
             'email' => Request::get('email'),
             'password' => Request::get('password'),
             'owner' => Request::get('owner'),
             'photo_path' => Request::file('photo') ? Request::file('photo')->store('users') : null,
-        ]);
+        ];
+
+        if ($data['owner']) {
+            // 赋予owner所有权限
+            $data['permissions'] = 'manage_users,manage_crocodiles,view_login_logs';
+        } else {
+            $data['permissions'] = null;
+        }
+
+        Auth::user()->account->users()->create($data);
 
         return Redirect::route('users')->with('success', 'User created.');
     }
@@ -72,6 +81,7 @@ class UsersController extends Controller
                 'email' => $user->email,
                 'owner' => $user->owner,
                 'photo' => $user->photo_path ? URL::route('image', ['path' => $user->photo_path, 'w' => 60, 'h' => 60, 'fit' => 'crop']) : null,
+                'permissions' => $user->permissions,
                 'deleted_at' => $user->deleted_at,
             ],
         ]);
@@ -92,7 +102,16 @@ class UsersController extends Controller
             'photo' => ['nullable', 'image'],
         ]);
 
-        $user->update(Request::only('first_name', 'last_name', 'email', 'owner'));
+        $data = Request::only('first_name', 'last_name', 'email', 'owner');
+
+        if (Request::get('owner')) {
+            // 若更新为owner，赋予所有权限
+            $data['permissions'] = 'manage_users,manage_crocodiles,view_login_logs';
+        } else {
+            $data['permissions'] = null;
+        }
+
+        $user->update($data);
 
         if (Request::file('photo')) {
             $user->update(['photo_path' => Request::file('photo')->store('users')]);

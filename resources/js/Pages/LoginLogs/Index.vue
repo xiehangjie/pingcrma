@@ -16,7 +16,7 @@
         <!-- 循环展示登录日志数据 -->
         <tr v-for="log in loginLogs.data" :key="log.id" class="hover:bg-gray-100 focus-within:bg-gray-100">
           <td class="border-t px-6 py-4">
-            {{ log.user.name }}
+            {{ log.user ? `${log.user.first_name} ${log.user.last_name}` : '未找到用户信息' }}
           </td>
           <td class="border-t px-6 py-4">
             {{ log.ip_address }}
@@ -32,7 +32,26 @@
       </table>
       <!-- 分页组件 -->
       <div class="mt-4">
-        <pagination :paginator="loginLogs" />
+        <Pagination :links="loginLogs.links">
+          <template #prev-button>
+            <button 
+              :disabled="!loginLogs.prev_page_url" 
+              @click="loginLogs.prev_page_url && $inertia.visit(loginLogs.prev_page_url)"
+              class="px-4 py-1 text-white text-xs font-medium bg-gray-500 hover:bg-gray-700 rounded-sm"
+            >
+              上一页
+            </button>
+          </template>
+          <template #next-button>
+            <button 
+              :disabled="!loginLogs.next_page_url" 
+              @click="loginLogs.next_page_url && $inertia.visit(loginLogs.next_page_url)"
+              class="px-4 py-1 text-white text-xs font-medium bg-gray-500 hover:bg-gray-700 rounded-sm"
+            >
+              下一页
+            </button>
+          </template>
+        </Pagination>
       </div>
     </div>
   </div>
