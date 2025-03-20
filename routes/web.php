@@ -3,6 +3,7 @@
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\ContactsController;
 use App\Http\Controllers\CrocodilesController;
+use App\Http\Controllers\CrocodileManagementController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ImagesController;
 use App\Http\Controllers\LoginLogController;
@@ -145,16 +146,17 @@ Route::get('/img/{path}', [ImagesController::class, 'show'])
 
 // Crocodiles
 
-Route::get('crocodiles', [CrocodilesController::class, 'index'])
-    ->name('crocodiles')
+// 鳄鱼信息管理路由
+Route::get('crocodile-management/crocodiles', [CrocodileManagementController::class, 'crocodileIndex'])
+    ->name('crocodile-management.crocodiles')
     ->middleware('auth');
 
-Route::get('crocodiles/create', [CrocodilesController::class, 'create'])
-    ->name('crocodiles.create')
+Route::get('crocodile-management/crocodiles/create', [CrocodileManagementController::class, 'crocodileCreate'])
+    ->name('crocodile-management.crocodiles.create')
     ->middleware('auth');
 
-Route::post('crocodiles', [CrocodilesController::class, 'store'])
-    ->name('crocodiles.store')
+Route::post('crocodile-management/crocodiles', [CrocodileManagementController::class, 'crocodileStore'])
+    ->name('crocodile-management.crocodiles.store')
     ->middleware('auth');
 
 Route::get('login-logs', [LoginLogController::class, 'index'])
