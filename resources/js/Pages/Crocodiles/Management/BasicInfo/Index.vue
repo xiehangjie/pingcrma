@@ -16,7 +16,7 @@
                  text-white font-medium rounded-lg shadow-sm hover:shadow-md transition-all
                  hover:from-emerald-600 hover:to-emerald-700 focus:ring-2 focus:ring-emerald-500 
                  focus:ring-offset-2 focus:outline-none"
-          href="/crocodiles/create"
+          href="/crocodile-management/basic-info/create"
         >
           <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
@@ -25,8 +25,24 @@
         </Link>
       </div>
 
+      <!-- 数据加载状态 -->
+      <div v-if="$page.loading" class="text-center py-12">
+        <svg class="mx-auto h-12 w-12 text-gray-400 animate-spin" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/>
+        </svg>
+        <p class="mt-4 text-sm text-gray-500">正在加载鳄鱼信息...</p>
+      </div>
+
+      <!-- 数据加载错误 -->
+      <div v-if="$page.error" class="text-center py-12">
+        <svg class="mx-auto h-12 w-12 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+        </svg>
+        <p class="mt-4 text-sm text-red-500">加载鳄鱼信息时出现错误，请稍后再试。</p>
+      </div>
+
       <!-- 数据表格 -->
-      <div class="bg-white rounded-xl shadow-lg overflow-hidden ring-1 ring-black ring-opacity-5">
+      <div v-if="!$page.loading && !$page.error" class="bg-white rounded-xl shadow-lg overflow-hidden ring-1 ring-black ring-opacity-5">
         <table class="min-w-full divide-y divide-gray-200">
           <thead class="bg-gray-50">
             <tr>
@@ -41,6 +57,15 @@
               </th>
               <th class="px-6 py-4 text-left text-sm font-semibold text-gray-700 uppercase tracking-wider">
                 养殖池编号
+              </th>
+              <th class="px-6 py-4 text-left text-sm font-semibold text-gray-700 uppercase tracking-wider">
+                性别
+              </th>
+              <th class="px-6 py-4 text-left text-sm font-semibold text-gray-700 uppercase tracking-wider">
+                出生日期
+              </th>
+              <th class="px-6 py-4 text-left text-sm font-semibold text-gray-700 uppercase tracking-wider">
+                健康状况
               </th>
             </tr>
           </thead>
@@ -62,6 +87,15 @@
               <td class="px-6 py-4 whitespace-nowrap text-sm text-emerald-600 font-medium">
                 #{{ crocodile.pool_id }}
               </td>
+              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">
+                {{ crocodile.gender }}
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">
+                {{ formatDate(crocodile.birth_date) }}
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">
+                {{ crocodile.health_status }}
+              </td>
             </tr>
           </tbody>
         </table>
@@ -81,6 +115,7 @@
 <script>
 import { Head } from '@inertiajs/vue3'
 import { Link } from '@inertiajs/vue3'
+import dayjs from 'dayjs'
 
 export default {
   components: {
@@ -89,6 +124,11 @@ export default {
   },
   props: {
     crocodiles: Array
+  },
+  methods: {
+    formatDate(date) {
+      return dayjs(date).format('YYYY-MM-DD')
+    }
   }
 }
 </script>

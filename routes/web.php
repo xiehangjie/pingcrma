@@ -144,18 +144,24 @@ Route::get('/img/{path}', [ImagesController::class, 'show'])
     ->name('image');
 
 // Crocodiles
-
-// 鳄鱼信息管理路由
-Route::get('crocodile-management/crocodiles', [CrocodileManagementController::class, 'crocodileIndex'])
-    ->name('crocodile-management.crocodiles')
+// 鳄鱼信息管理首页
+Route::get('crocodile-management', [CrocodileManagementController::class, 'index'])
+    ->name('crocodile-management')
     ->middleware('auth');
 
-Route::get('crocodile-management/crocodiles/create', [CrocodileManagementController::class, 'crocodileCreate'])
-    ->name('crocodile-management.crocodiles.create')
+// 鳄鱼基本信息列表
+Route::get('crocodile-management/basic-info', [CrocodileManagementController::class, 'crocodileIndex'])
+    ->name('crocodile-management.basic-info')
     ->middleware('auth');
 
-Route::post('crocodile-management/crocodiles', [CrocodileManagementController::class, 'crocodileStore'])
-    ->name('crocodile-management.crocodiles.store')
+// 创建鳄鱼信息页面
+Route::get('crocodile-management/basic-info/create', [CrocodileManagementController::class, 'crocodileCreate'])
+    ->name('crocodile-management.basic-info.create')
+    ->middleware('auth');
+
+// 保存鳄鱼信息
+Route::post('crocodile-management/basic-info', [CrocodileManagementController::class, 'crocodileStore'])
+    ->name('crocodile-management.basic-info.store')
     ->middleware('auth');
 
 Route::get('login-logs', [LoginLogController::class, 'index'])
