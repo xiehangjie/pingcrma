@@ -67,6 +67,22 @@
               <th class="px-6 py-4 text-left text-sm font-semibold text-gray-700 uppercase tracking-wider">
                 健康状况
               </th>
+              <!-- 新增唯一身份标识列 -->
+              <th class="px-6 py-4 text-left text-sm font-semibold text-gray-700 uppercase tracking-wider">
+                唯一身份标识
+              </th>
+              <!-- 新增RFID电子标签列 -->
+              <th class="px-6 py-4 text-left text-sm font-semibold text-gray-700 uppercase tracking-wider">
+                RFID电子标签
+              </th>
+              <!-- 新增物种类型列 -->
+              <th class="px-6 py-4 text-left text-sm font-semibold text-gray-700 uppercase tracking-wider">
+                物种类型
+              </th>
+              <!-- 新增遗传谱系列 -->
+              <th class="px-6 py-4 text-left text-sm font-semibold text-gray-700 uppercase tracking-wider">
+                遗传谱系
+              </th>
             </tr>
           </thead>
           <tbody class="bg-white divide-y divide-gray-200">
@@ -95,6 +111,22 @@
               </td>
               <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">
                 {{ crocodile.health_status }}
+              </td>
+              <!-- 显示唯一身份标识 -->
+              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">
+                {{ crocodile.unique_id }}
+              </td>
+              <!-- 显示RFID电子标签 -->
+              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">
+                {{ crocodile.rfid_tag }}
+              </td>
+              <!-- 显示物种类型 -->
+              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">
+                {{ crocodile.species_type }}
+              </td>
+              <!-- 显示遗传谱系 -->
+              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">
+                {{ crocodile.genetic_lineage }}
               </td>
             </tr>
           </tbody>

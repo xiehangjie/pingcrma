@@ -13,15 +13,18 @@ return new class extends Migration
     {
         Schema::create('crocodiles', function (Blueprint $table) {
             $table->id();
-            $table->string('name')->comment('鳄鱼名称');
-            $table->integer('age')->comment('鳄鱼年龄');
-            $table->decimal('weight', 8, 2)->comment('鳄鱼体重');
-            $table->string('gender', 10)->comment('鳄鱼性别');
-            $table->date('birth_date')->nullable()->comment('鳄鱼出生日期');
-            $table->integer('pool_id')->index()->comment('所在养殖池 ID');
-            $table->text('health_status')->nullable()->comment('健康状况描述');
+            $table->string('unique_id', 100)->unique();
+            $table->string('rfid_tag', 100)->unique();
+            $table->string('species_type', 100);
+            $table->enum('gender', ['公', '母']);
+            $table->date('birth_date');
+            $table->string('genetic_lineage', 255);
+            $table->integer('age');
+            $table->decimal('weight', 8, 2);
+            $table->integer('pool_id');
+            $table->string('health_status', 255);
             $table->timestamps();
-            $table->softDeletes();
+
         });
     }
 
