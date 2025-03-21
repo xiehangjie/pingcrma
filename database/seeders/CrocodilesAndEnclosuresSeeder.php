@@ -28,10 +28,10 @@ class CrocodilesAndEnclosuresSeeder extends Seeder
             ];
         }
         DB::table('enclosures')->insert($enclosures);
-    
+
         // 获取所有养殖池的 pool_id
         $enclosurePoolIds = DB::table('enclosures')->pluck('pool_id')->toArray();
-    
+
         // 创建一些鳄鱼
         $crocodiles = [];
         for ($i = 1; $i <= 20; $i++) { // 这里创建 20 条鳄鱼，你可以根据实际情况调整数量
@@ -45,7 +45,7 @@ class CrocodilesAndEnclosuresSeeder extends Seeder
             $weight = rand(100, 500) + (rand(0, 99) / 100);
             $poolId = $enclosurePoolIds[array_rand($enclosurePoolIds)];
             $healthStatus = collect(['健康', '患病', '康复中', '亚健康'])->random();
-    
+
             $crocodiles[] = [
                 'unique_id' => $uniqueId,
                 'rfid_tag' => $rfidTag,
