@@ -15,7 +15,6 @@ class EnclosureManagementController extends Controller
     {
         $enclosures = Enclosure::with('crocodiles')->get();
 
-
         return Inertia::render('Crocodiles/Management/Enclosure/Index', [
             'enclosures' => $enclosures,
         ]);
@@ -26,16 +25,16 @@ class EnclosureManagementController extends Controller
         if (! Auth::user()->hasPermission('manage_crocodiles')) {
             abort(403, 'You do not have permission to access this page.');
         }
-    
+
         // 获取鳄鱼信息列表，按照 unique_id 排序，并关联养殖池信息
         $crocodiles = Crocodile::with('pool')->orderBy('unique_id')->get();
-    
+
         // 返回渲染后的视图，并传递鳄鱼信息列表
         return Inertia::render('Crocodiles/Management/BasicInfo/Index', [
             'crocodiles' => $crocodiles,
         ]);
     }
-    
+
     public function allocate(Request $request)
     {
         $request->validate([
@@ -85,7 +84,7 @@ class EnclosureManagementController extends Controller
             }
         }
 
-        if (!empty($unallocatedCrocodiles)) {
+        if (! empty($unallocatedCrocodiles)) {
             // 可以在这里记录日志或者发送通知，告知有鳄鱼无法分配
             \Log::info('以下鳄鱼无法分配到圈舍：', array_column($unallocatedCrocodiles, 'id'));
         }
@@ -104,7 +103,6 @@ class EnclosureManagementController extends Controller
             }
         }
 
-
         return null;
     }
 
@@ -114,7 +112,6 @@ class EnclosureManagementController extends Controller
         if ($allocation) {
             $allocation->delete();
         }
-
 
         return redirect()->back()->with('success', '圈舍分配状态已更新。');
     }

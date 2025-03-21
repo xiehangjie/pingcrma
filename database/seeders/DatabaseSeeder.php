@@ -39,7 +39,7 @@ class DatabaseSeeder extends Seeder
             ->each(function ($contact) use ($organizations) {
                 $contact->update(['organization_id' => $organizations->random()->id]);
             });
-            
+
         $this->call(CrocodilesAndEnclosuresSeeder::class);
     }
 }

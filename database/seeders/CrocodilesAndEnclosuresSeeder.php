@@ -3,9 +3,9 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
-use Illuminate\Support\Carbon;
 
 class CrocodilesAndEnclosuresSeeder extends Seeder
 {
@@ -35,12 +35,12 @@ class CrocodilesAndEnclosuresSeeder extends Seeder
         // 创建一些鳄鱼
         $crocodiles = [];
         for ($i = 1; $i <= 20; $i++) { // 这里创建 20 条鳄鱼，你可以根据实际情况调整数量
-            $uniqueId = 'CHN-' . str_pad(rand(1, 999999999999), 12, '0', STR_PAD_LEFT) . '-' . str_pad($i, 6, '0', STR_PAD_LEFT);
-            $rfidTag = Str::upper(Str::random(8)) . '-' . Str::upper(Str::random(16));
+            $uniqueId = 'CHN-'.str_pad(rand(1, 999999999999), 12, '0', STR_PAD_LEFT).'-'.str_pad($i, 6, '0', STR_PAD_LEFT);
+            $rfidTag = Str::upper(Str::random(8)).'-'.Str::upper(Str::random(16));
             $speciesType = collect(['尼罗鳄', '湾鳄', '暹罗鳄'])->random();
             $gender = collect(['雄性', '雌性'])->random();
             $birthDate = Carbon::now()->subYears(rand(1, 20))->format('Y-m-d');
-            $geneticLineage = 'Lineage-' . Str::random(5);
+            $geneticLineage = 'Lineage-'.Str::random(5);
             $age = rand(1, 20);
             $weight = rand(100, 500) + (rand(0, 99) / 100);
             $poolId = $enclosureIds[array_rand($enclosureIds)];
