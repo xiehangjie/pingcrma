@@ -12,6 +12,8 @@ return new class extends Migration
             $table->id();
             $table->string('pool_id')->unique();
             $table->integer('capacity');
+            // 添加养殖池类型字段，假设类型用字符串表示，长度可根据实际情况调整
+            $table->string('pool_type', 100)->nullable(); 
             $table->timestamps();
         });
     }

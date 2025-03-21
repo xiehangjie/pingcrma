@@ -16,6 +16,6 @@ class Enclosure extends Model
 
     public function crocodiles()
     {
-        return $this->hasMany(EnclosureAllocation::class);
+        return $this->hasMany(Crocodile::class, 'pool_id', 'pool_id');
     }
 }

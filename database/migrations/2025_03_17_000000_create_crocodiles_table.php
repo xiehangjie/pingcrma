@@ -21,7 +21,7 @@ return new class extends Migration
             $table->string('genetic_lineage', 255);
             $table->integer('age');
             $table->decimal('weight', 8, 2);
-            $table->bigInteger('pool_id');
+            $table->string('pool_id',12);
             $table->string('health_status', 255);
             $table->timestamps();
 
