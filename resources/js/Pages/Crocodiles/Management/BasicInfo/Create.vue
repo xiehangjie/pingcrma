@@ -22,7 +22,7 @@
           <!-- 唯一身份标识 -->
           <text-input 
             v-model="form.unique_id" 
-            @input="validateUniqueId"
+            @blur="validateUniqueId"
             :error="form.errors.unique_id" 
             class="mt-10" 
             label="唯一身份标识" 
@@ -35,7 +35,7 @@
           <!-- RFID 电子标签 -->
           <text-input 
             v-model="form.rfid_tag" 
-            @input="validateRfidTag"
+            @blur="validateRfidTag"
             :error="form.errors.rfid_tag" 
             class="mt-6" 
             label="RFID 电子标签" 
@@ -46,7 +46,7 @@
           <!-- 物种类型 -->
           <text-input 
             v-model="form.species_type" 
-            @input="validateSpeciesType"
+            @blur="validateSpeciesType"
             :error="form.errors.species_type" 
             class="mt-6" 
             label="物种类型" 
@@ -68,7 +68,7 @@
           <!-- 出生日期 -->
           <text-input 
             v-model="form.birth_date" 
-            @input="validateBirthDate"
+            @blur="validateBirthDate"
             :error="form.errors.birth_date" 
             class="mt-6" 
             label="出生日期" 
@@ -91,7 +91,7 @@
           <!-- 年龄 -->
           <text-input 
             v-model="form.age" 
-            @input="validateNumber('age', 0)"
+            @blur="validateNumber('age', 0)"
             :error="form.errors.age" 
             class="mt-6" 
             label="年龄" 
@@ -102,7 +102,7 @@
           <!-- 体重 -->
           <text-input 
             v-model="form.weight" 
-            @input="validateNumber('weight', 0)"
+            @blur="validateNumber('weight', 0)"
             :error="form.errors.weight" 
             class="mt-6" 
             label="体重" 
@@ -113,7 +113,7 @@
           <!-- 养殖池编号 -->
           <text-input 
             v-model="form.pool_id" 
-            @input="validatePoolId"
+            @blur="validatePoolId"
             :error="form.errors.pool_id" 
             class="mt-6" 
             label="养殖池编号" 

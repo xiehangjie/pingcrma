@@ -26,7 +26,7 @@
           <!-- 唯一身份标识 -->
           <text-input 
             v-model="form.unique_id" 
-            @input="validateUniqueId"
+            @blur="validateUniqueId"
             :error="form.errors.unique_id" 
             class="mt-10" 
             label="唯一身份标识" 
@@ -39,7 +39,7 @@
           <!-- RFID 电子标签 -->
           <text-input 
             v-model="form.rfid_tag" 
-            @input="validateRfidTag"
+            @blur="validateRfidTag"
             :error="form.errors.rfid_tag" 
             class="mt-6" 
             label="RFID 电子标签" 
@@ -50,7 +50,7 @@
           <!-- 物种类型 -->
           <text-input 
             v-model="form.species_type" 
-            @input="validateSpeciesType"
+            @blur="validateSpeciesType"
             :error="form.errors.species_type" 
             class="mt-6" 
             label="物种类型" 
@@ -72,7 +72,7 @@
           <!-- 出生日期 -->
           <text-input 
             v-model="form.birth_date" 
-            @input="validateBirthDate"
+            @blur="validateBirthDate"
             :error="form.errors.birth_date" 
             class="mt-6" 
             label="出生日期" 
@@ -95,7 +95,7 @@
           <!-- 年龄 -->
           <text-input 
             v-model="form.age" 
-            @input="validateNumber('age', 0)"
+            @blur="validateNumber('age', 0)"
             :error="form.errors.age" 
             class="mt-6" 
             label="年龄" 
@@ -106,7 +106,7 @@
           <!-- 体重 -->
           <text-input 
             v-model="form.weight" 
-            @input="validateNumber('weight', 0)"
+            @blur="validateNumber('weight', 0)"
             :error="form.errors.weight" 
             class="mt-6" 
             label="体重" 
@@ -117,7 +117,7 @@
           <!-- 养殖池编号 -->
           <text-input 
             v-model="form.pool_id" 
-            @input="validatePoolId"
+            @blur="validatePoolId"
             :error="form.errors.pool_id" 
             class="mt-6" 
             label="养殖池编号" 
@@ -196,6 +196,10 @@ export default {
       successMessage: ''
     }
   },
+  created() {
+    // 页面加载时触发验证
+    this.validatePoolId();
+  },
   methods: {
     // 即时验证方法
     validateUniqueId() {
@@ -244,13 +248,17 @@ export default {
     },
 
     validatePoolId() {
+      console.log('当前输入的 pool_id:', this.form.pool_id);
       // 过滤非数字字符
       this.form.pool_id = this.form.pool_id.replace(/[^0-9]/g, '');
+      console.log('过滤后的 pool_id:', this.form.pool_id);
       
       // 验证长度
       if (this.form.pool_id.length !== 12) {
+        console.log('设置 pool_id 错误提示');
         this.form.setError('pool_id', '必须是12位数字');
       } else {
+        console.log('清除 pool_id 错误提示');
         this.form.clearErrors('pool_id');
       }
     },
