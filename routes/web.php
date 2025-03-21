@@ -4,6 +4,7 @@ use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\ContactsController;
 use App\Http\Controllers\CrocodileManagementController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\EnclosureManagementController;
 use App\Http\Controllers\ImagesController;
 use App\Http\Controllers\LoginLogController;
 use App\Http\Controllers\OrganizationsController;
@@ -143,7 +144,12 @@ Route::get('/img/{path}', [ImagesController::class, 'show'])
     ->where('path', '.*')
     ->name('image');
 
+    Route::get('login-logs', [LoginLogController::class, 'index'])
+    ->name('login-logs')
+    ->middleware('auth');
+
 // Crocodiles
+
 // 鳄鱼信息管理首页
 Route::get('crocodile-management', [CrocodileManagementController::class, 'index'])
     ->name('crocodile-management')
@@ -179,6 +185,19 @@ Route::delete('crocodile-management/basic-info/{crocodile}', [CrocodileManagemen
     ->name('crocodile-management.basic-info.delete')
     ->middleware('auth');
 
-Route::get('login-logs', [LoginLogController::class, 'index'])
-    ->name('login-logs')
+//圈舍管理
+Route::get('crocodile-management/enclosure', [EnclosureManagementController::class, 'index'])
+    ->name('crocodile-management.enclosure')
+    ->middleware('auth');
+
+Route::post('crocodile-management/enclosure/allocate', [EnclosureManagementController::class, 'allocate'])
+    ->name('crocodile-management.enclosure.allocate')
+    ->middleware('auth');
+
+Route::post('crocodile-management/enclosure/auto-allocate', [EnclosureManagementController::class, 'autoAllocate'])
+    ->name('crocodile-management.enclosure.auto-allocate')
+    ->middleware('auth');
+
+Route::post('crocodile-management/enclosure/update-status/{crocodileId}', [EnclosureManagementController::class, 'updateStatusOnIsolation'])
+    ->name('crocodile-management.enclosure.update-status')
     ->middleware('auth');
