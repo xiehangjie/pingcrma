@@ -6,10 +6,10 @@ use App\Models\Crocodile;
 use App\Models\Enclosure;
 use App\Models\EnclosureAllocation;
 use Illuminate\Http\Request;
-use Inertia\Inertia;
-use Inertia\Response;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
+use Inertia\Inertia;
+use Inertia\Response;
 
 class EnclosureManagementController extends Controller
 {
@@ -52,7 +52,7 @@ class EnclosureManagementController extends Controller
 
             return redirect()->back()->with('success', '圈舍分配成功。');
         } catch (\Exception $e) {
-            return redirect()->back()->with('error', '圈舍分配失败：' . $e->getMessage());
+            return redirect()->back()->with('error', '圈舍分配失败：'.$e->getMessage());
         }
     }
 
@@ -95,7 +95,7 @@ class EnclosureManagementController extends Controller
 
             return redirect()->back()->with('success', '自动圈舍分配完成。');
         } catch (\Exception $e) {
-            return redirect()->back()->with('error', '自动圈舍分配失败：' . $e->getMessage());
+            return redirect()->back()->with('error', '自动圈舍分配失败：'.$e->getMessage());
         }
     }
 
@@ -123,7 +123,7 @@ class EnclosureManagementController extends Controller
 
             return redirect()->back()->with('success', '圈舍分配状态已更新。');
         } catch (\Exception $e) {
-            return redirect()->back()->with('error', '圈舍分配状态更新失败：' . $e->getMessage());
+            return redirect()->back()->with('error', '圈舍分配状态更新失败：'.$e->getMessage());
         }
     }
 
@@ -140,7 +140,7 @@ class EnclosureManagementController extends Controller
 
             return redirect()->back()->with('success', '圈舍信息更新成功。');
         } catch (\Exception $e) {
-            return redirect()->back()->with('error', '圈舍信息更新失败：' . $e->getMessage());
+            return redirect()->back()->with('error', '圈舍信息更新失败：'.$e->getMessage());
         }
     }
 
@@ -152,7 +152,7 @@ class EnclosureManagementController extends Controller
 
             return redirect()->back()->with('success', '圈舍删除成功。');
         } catch (\Exception $e) {
-            return redirect()->back()->with('error', '圈舍删除失败：' . $e->getMessage());
+            return redirect()->back()->with('error', '圈舍删除失败：'.$e->getMessage());
         }
     }
 
@@ -163,11 +163,11 @@ class EnclosureManagementController extends Controller
             'capacity' => 'required|integer',
             'pool_type' => 'nullable|string',
         ]);
-    
+
         // 只使用需要的字段创建圈舍
         $data = $request->only(['pool_id', 'capacity', 'pool_type']);
         Enclosure::create($data);
-    
+
         return redirect()->route('crocodile-management.enclosure')->with('success', '圈舍创建成功。');
     }
 }
