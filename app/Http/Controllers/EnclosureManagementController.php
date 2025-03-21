@@ -14,8 +14,9 @@ class EnclosureManagementController extends Controller
     public function index(): Response
     {
         $enclosures = Enclosure::with('crocodiles')->get();
+
         return Inertia::render('Crocodiles/Management/Enclosure/Index', [
-            'enclosures' => $enclosures
+            'enclosures' => $enclosures,
         ]);
     }
 
@@ -23,12 +24,12 @@ class EnclosureManagementController extends Controller
     {
         $request->validate([
             'crocodile_id' => 'required|exists:crocodiles,id',
-            'enclosure_id' => 'required|exists:enclosures,id'
+            'enclosure_id' => 'required|exists:enclosures,id',
         ]);
 
         EnclosureAllocation::create([
             'crocodile_id' => $request->crocodile_id,
-            'enclosure_id' => $request->enclosure_id
+            'enclosure_id' => $request->enclosure_id,
         ]);
 
         return redirect()->back()->with('success', '圈舍分配成功。');
@@ -43,7 +44,7 @@ class EnclosureManagementController extends Controller
             if ($suitableEnclosure) {
                 EnclosureAllocation::create([
                     'crocodile_id' => $crocodile->id,
-                    'enclosure_id' => $suitableEnclosure->id
+                    'enclosure_id' => $suitableEnclosure->id,
                 ]);
             }
         }
@@ -61,6 +62,7 @@ class EnclosureManagementController extends Controller
                 return $enclosure;
             }
         }
+
         return null;
     }
 
@@ -70,6 +72,7 @@ class EnclosureManagementController extends Controller
         if ($allocation) {
             $allocation->delete();
         }
+
         return redirect()->back()->with('success', '圈舍分配状态已更新。');
     }
 }

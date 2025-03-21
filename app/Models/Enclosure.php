@@ -11,7 +11,7 @@ class Enclosure extends Model
 
     protected $fillable = [
         'enclosure_number',
-        'capacity'
+        'capacity',
     ];
 
     public function crocodiles()

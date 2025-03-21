@@ -11,7 +11,7 @@ class EnclosureAllocation extends Model
 
     protected $fillable = [
         'crocodile_id',
-        'enclosure_id'
+        'enclosure_id',
     ];
 
     public function crocodile()

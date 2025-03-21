@@ -144,7 +144,7 @@ Route::get('/img/{path}', [ImagesController::class, 'show'])
     ->where('path', '.*')
     ->name('image');
 
-    Route::get('login-logs', [LoginLogController::class, 'index'])
+Route::get('login-logs', [LoginLogController::class, 'index'])
     ->name('login-logs')
     ->middleware('auth');
 
@@ -185,7 +185,7 @@ Route::delete('crocodile-management/basic-info/{crocodile}', [CrocodileManagemen
     ->name('crocodile-management.basic-info.delete')
     ->middleware('auth');
 
-//圈舍管理
+// 圈舍管理
 Route::get('crocodile-management/enclosure', [EnclosureManagementController::class, 'index'])
     ->name('crocodile-management.enclosure')
     ->middleware('auth');
