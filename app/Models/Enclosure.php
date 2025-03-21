@@ -10,8 +10,8 @@ class Enclosure extends Model
     use HasFactory;
 
     protected $fillable = [
-        'enclosure_number',
-        'capacity',
+        'pool_id',
+        'capacity'
     ];
 
     public function crocodiles()

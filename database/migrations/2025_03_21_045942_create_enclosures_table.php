@@ -10,7 +10,7 @@ return new class extends Migration
     {
         Schema::create('enclosures', function (Blueprint $table) {
             $table->id();
-            $table->string('enclosure_number')->unique();
+            $table->string('pool_id')->unique();
             $table->integer('capacity');
             $table->timestamps();
         });

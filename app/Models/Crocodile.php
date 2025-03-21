@@ -22,4 +22,9 @@ class Crocodile extends Model
         'genetic_lineage',
         'health_status',
     ];
+
+    public function pool(): BelongsTo
+    {
+        return $this->belongsTo(Pool::class);
+    }
 }

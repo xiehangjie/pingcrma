@@ -201,3 +201,11 @@ Route::post('crocodile-management/enclosure/auto-allocate', [EnclosureManagement
 Route::post('crocodile-management/enclosure/update-status/{crocodileId}', [EnclosureManagementController::class, 'updateStatusOnIsolation'])
     ->name('crocodile-management.enclosure.update-status')
     ->middleware('auth');
+
+Route::put('crocodile-management/enclosure/{enclosure}', [EnclosureManagementController::class, 'update'])
+    ->name('crocodile-management.enclosure.update')
+    ->middleware('auth');
+
+Route::delete('crocodile-management/enclosure/{enclosure}', [EnclosureManagementController::class, 'destroy'])
+    ->name('crocodile-management.enclosure.destroy')
+    ->middleware('auth');
