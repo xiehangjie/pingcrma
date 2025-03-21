@@ -56,10 +56,10 @@ class CrocodileManagementController extends Controller
             'genetic_lineage' => ['required', 'max:255'],
             'age' => ['required', 'integer', 'min:0'],
             'weight' => ['required', 'numeric', 'min:0'],
-            'pool_id' => ['required', 'integer', 'min:1'],
+            'pool_id' => ['required', 'string', 'size:12'], // 修改为字符串类型，长度为 12
             'health_status' => ['nullable', 'string'],
         ]);
-
+    
         Crocodile::create([
             'unique_id' => Request::get('unique_id'),
             'rfid_tag' => Request::get('rfid_tag'),
@@ -72,7 +72,7 @@ class CrocodileManagementController extends Controller
             'pool_id' => Request::get('pool_id'),
             'health_status' => Request::get('health_status'),
         ]);
-
+    
         return Redirect::route('crocodile-management.basic-info')->with('success', '鳄鱼信息已添加。');
     }
 
