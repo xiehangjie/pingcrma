@@ -209,3 +209,8 @@ Route::put('crocodile-management/enclosure/{enclosure}', [EnclosureManagementCon
 Route::delete('crocodile-management/enclosure/{enclosure}', [EnclosureManagementController::class, 'destroy'])
     ->name('crocodile-management.enclosure.destroy')
     ->middleware('auth');
+
+// 保存新创建的圈舍信息
+Route::post('crocodile-management/enclosure', [EnclosureManagementController::class, 'store'])
+    ->name('crocodile-management.enclosure.store')
+    ->middleware('auth');

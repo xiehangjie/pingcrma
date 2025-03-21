@@ -12,16 +12,16 @@
           <p class="mt-2 text-gray-500">当前共 {{ crocodiles.length }} 条鳄鱼信息</p>
         </div>
         <div class="flex space-x-4">
-          <button 
+          <Link 
             class="inline-flex items-center px-6 py-3 bg-gray-300 text-gray-700 font-medium rounded-lg shadow-sm hover:shadow-md transition-all
-                   hover:bg-gray-400 focus:ring-2 focus:ring-gray-300 focus:ring-offset-2 focus:outline-none"
-            @click="goBack"
+                  hover:bg-gray-400 focus:ring-2 focus:ring-gray-300 focus:ring-offset-2 focus:outline-none"
+            href="/crocodile-management"
           >
             <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
             </svg>
-            返回
-          </button>
+            返回鳄鱼信息管理
+          </Link>
           <Link 
             class="inline-flex items-center px-6 py-3 bg-gradient-to-r from-emerald-500 to-emerald-600 
                    text-white font-medium rounded-lg shadow-sm hover:shadow-md transition-all
@@ -201,9 +201,6 @@ export default {
       if (confirm('你确定要删除这条鳄鱼信息吗？')) {
         this.$inertia.delete(`/crocodile-management/basic-info/${id}`)
       }
-    },
-    goBack() {
-      window.history.back();
     }
   }
 }

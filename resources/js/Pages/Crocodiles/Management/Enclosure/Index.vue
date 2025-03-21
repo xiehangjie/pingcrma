@@ -23,18 +23,18 @@
             </svg>
             返回
           </Link>
-          <Link 
+          <button
             class="inline-flex items-center px-6 py-3 bg-gradient-to-r from-emerald-500 to-emerald-600 
                    text-white font-medium rounded-lg shadow-sm hover:shadow-md transition-all
                    hover:from-emerald-600 hover:to-emerald-700 focus:ring-2 focus:ring-emerald-500 
                    focus:ring-offset-2 focus:outline-none"
-            href="/crocodile-management/enclosure/create"
+            @click="showModal = true"
           >
             <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
             </svg>
             添加圈舍
-          </Link>
+          </button>
         </div>
       </div>
 
@@ -54,17 +54,24 @@
         <p class="mt-4 text-sm text-red-500">加载圈舍信息时出现错误，请稍后再试。</p>
       </div>
 
-      <!-- 搜索框 -->
-      <input type="text" v-model="searchQuery" placeholder="搜索圈舍编号、容量、养殖池类型" class="mb-4 p-2 border border-gray-300 rounded-md">
-      <button @click="autoAllocate" class="inline-flex items-center px-6 py-3 bg-gradient-to-r from-emerald-500 to-emerald-600 
-                   text-white font-medium rounded-lg shadow-sm hover:shadow-md transition-all
-                   hover:from-emerald-600 hover:to-emerald-700 focus:ring-2 focus:ring-emerald-500 
-                   focus:ring-offset-2 focus:outline-none">
-        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
-        </svg>
-        自动分配圈舍
-      </button>
+      <!-- 搜索框和按钮 -->
+      <div class="flex items-center mb-4">
+        <input 
+          type="text" 
+          v-model="searchQuery" 
+          placeholder="搜索圈舍编号、容量、养殖池类型" 
+          class="p-2 border border-gray-300 rounded-md w-80 mr-2"
+        >
+        <button @click="autoAllocate" class="inline-flex items-center px-6 py-3 bg-gradient-to-r from-emerald-500 to-emerald-600 
+                     text-white font-medium rounded-lg shadow-sm hover:shadow-md transition-all
+                     hover:from-emerald-600 hover:to-emerald-700 focus:ring-2 focus:ring-emerald-500 
+                     focus:ring-offset-2 focus:outline-none">
+          <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
+          </svg>
+          自动分配圈舍
+        </button>
+      </div>
 
       <!-- 数据表格 -->
       <div v-if="!$page.loading && !$page.error" class="bg-white rounded-xl shadow-lg overflow-x-auto ring-1 ring-black ring-opacity-5">
@@ -134,13 +141,13 @@
               </td>
               <!-- 操作 -->
               <td class="px-6 py-4 whitespace-nowrap text-center text-sm text-gray-700">
-                <Link 
-                    class="text-blue-500 hover:underline mr-2"
-                    :href="`/crocodile-management/enclosure/${enclosure.id}/edit`"
-                  >
-                    编辑
-                  </Link>
-                  <button @click="deleteEnclosure(enclosure.id)" class="text-red-500 hover:underline">删除</button>
+                <button 
+                  class="text-blue-500 hover:underline mr-2"
+                  @click="editEnclosurePopup(enclosure)"
+                >
+                  编辑
+                </button>
+                <button @click="deleteEnclosure(enclosure.id)" class="text-red-500 hover:underline">删除</button>
               </td>
             </tr>
           </tbody>
@@ -161,6 +168,152 @@
         <p>总鳄鱼数量: {{ getTotalCrocodileCount() }}</p>
         <p>平均每个圈舍的鳄鱼数量: {{ getAverageCrocodileCount() }}</p>
       </div>
+
+      <!-- 添加圈舍弹窗背景 -->
+      <div v-if="showModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+        <!-- 弹窗内容 -->
+        <div class="max-w-md w-full bg-white p-6 rounded-md shadow-md relative">
+          <button
+            class="absolute top-3 right-3 text-gray-500 hover:text-gray-700 focus:text-indigo-500"
+            @click="showModal = false"
+          >
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+            </svg>
+          </button>
+          <form @submit.prevent="createEnclosure">
+            <div class="mb-4">
+              <label for="pool_id" class="block text-sm font-medium text-gray-700">圈舍编号</label>
+              <input 
+                type="text" 
+                id="pool_id" 
+                v-model="form.pool_id" 
+                class="mt-1 block w-full border border-gray-300 rounded-md p-2" 
+                required
+              />
+            </div>
+            <div class="mb-4">
+              <label for="capacity" class="block text-sm font-medium text-gray-700">容量</label>
+              <input 
+                type="number" 
+                id="capacity" 
+                v-model="form.capacity" 
+                class="mt-1 block w-full border border-gray-300 rounded-md p-2" 
+                required
+              />
+            </div>
+            <div class="mb-4">
+              <label for="pool_type" class="block text-sm font-medium text-gray-700">养殖池类型</label>
+              <select 
+                id="pool_type" 
+                v-model="form.pool_type" 
+                class="mt-1 block w-full border border-gray-300 rounded-md p-2" 
+                required
+              >
+                <option value="小鳄鱼池">小鳄鱼池</option>
+                <option value="成年鳄鱼池">成年鳄鱼池</option>
+                <option value="繁殖池">繁殖池</option>
+                <option value="病鳄隔离池">病鳄隔离池</option>
+              </select>
+            </div>
+            <div class="flex space-x-4">
+              <button 
+                type="button"
+                class="inline-flex items-center px-6 py-3 bg-gray-300 text-gray-700 font-medium rounded-lg shadow-sm hover:shadow-md transition-all
+                       hover:bg-gray-400 focus:ring-2 focus:ring-gray-300 focus:ring-offset-2 focus:outline-none"
+                @click="showModal = false"
+              >
+                取消
+              </button>
+              <button 
+                type="submit" 
+                class="inline-flex items-center px-6 py-3 bg-gradient-to-r from-emerald-500 to-emerald-600 
+                       text-white font-medium rounded-lg shadow-sm hover:shadow-md transition-all
+                       hover:from-emerald-600 hover:to-emerald-700 focus:ring-2 focus:ring-emerald-500 
+                       focus:ring-offset-2 focus:outline-none"
+              >
+                <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
+                </svg>
+                提交
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <!-- 编辑圈舍弹窗背景 -->
+      <div v-if="showEditModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+        <!-- 弹窗内容 -->
+        <div class="max-w-md w-full bg-white p-6 rounded-md shadow-md relative">
+          <button
+            class="absolute top-3 right-3 text-gray-500 hover:text-gray-700 focus:text-indigo-500"
+            @click="showEditModal = false"
+          >
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+            </svg>
+          </button>
+          <form @submit.prevent="updateEnclosure">
+            <div class="mb-4">
+              <label for="edit_pool_id" class="block text-sm font-medium text-gray-700">圈舍编号</label>
+              <input 
+                type="text" 
+                id="edit_pool_id" 
+                v-model="editForm.pool_id" 
+                class="mt-1 block w-full border border-gray-300 rounded-md p-2" 
+                required
+              />
+            </div>
+            <div class="mb-4">
+              <label for="edit_capacity" class="block text-sm font-medium text-gray-700">容量</label>
+              <input 
+                type="number" 
+                id="edit_capacity" 
+                v-model="editForm.capacity" 
+                class="mt-1 block w-full border border-gray-300 rounded-md p-2" 
+                required
+              />
+            </div>
+            <div class="mb-4">
+              <label for="edit_pool_type" class="block text-sm font-medium text-gray-700">养殖池类型</label>
+              <select 
+                id="edit_pool_type" 
+                v-model="editForm.pool_type" 
+                class="mt-1 block w-full border border-gray-300 rounded-md p-2" 
+                required
+              >
+                <option value="小鳄鱼池">小鳄鱼池</option>
+                <option value="成年鳄鱼池">成年鳄鱼池</option>
+                <option value="繁殖池">繁殖池</option>
+                <option value="病鳄隔离池">病鳄隔离池</option>
+              </select>
+            </div>
+            <div class="flex space-x-4">
+              <button 
+                type="button"
+                class="inline-flex items-center px-6 py-3 bg-gray-300 text-gray-700 font-medium rounded-lg shadow-sm hover:shadow-md transition-all
+                       hover:bg-gray-400 focus:ring-2 focus:ring-gray-300 focus:ring-offset-2 focus:outline-none"
+                @click="showEditModal = false"
+              >
+                取消
+              </button>
+              <button 
+                type="submit" 
+                class="inline-flex items-center px-6 py-3 bg-gradient-to-r from-emerald-500 to-emerald-600 
+                       text-white font-medium rounded-lg shadow-sm hover:shadow-md transition-all
+                       hover:from-emerald-600 hover:to-emerald-700 focus:ring-2 focus:ring-emerald-500 
+                       focus:ring-offset-2 focus:outline-none"
+              >
+                <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
+                </svg>
+                保存修改
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -180,9 +333,20 @@ export default {
   },
   data() {
     return {
+      showModal: false,
+      showEditModal: false,
       form: this.$inertia.form({
+        pool_id: '',
+        capacity: '',
+        pool_type: '',
         crocodile_id: null,
         enclosure_id: null
+      }),
+      editForm: this.$inertia.form({
+        id: null,
+        pool_id: '',
+        capacity: '',
+        pool_type: ''
       }),
       searchQuery: '',
       errorMessage: null
@@ -248,8 +412,12 @@ export default {
         return '正常';
       }
     },
-    editEnclosure(enclosureId) {
-      console.log(`编辑圈舍 ID: ${enclosureId}`);
+    editEnclosurePopup(enclosure) {
+      this.editForm.id = enclosure.id;
+      this.editForm.pool_id = enclosure.pool_id;
+      this.editForm.capacity = enclosure.capacity;
+      this.editForm.pool_type = enclosure.pool_type;
+      this.showEditModal = true;
     },
     deleteEnclosure(enclosureId) {
       if (confirm('确定要删除这个圈舍吗？')) {
@@ -296,8 +464,30 @@ export default {
       return ids.join('\n');
     },
     goBack() {
-    window.history.back();
+      window.history.back();
+    },
+    createEnclosure() {
+      this.form.post('/crocodile-management/enclosure', {
+        onSuccess: () => {
+          this.showModal = false;
+          this.$inertia.visit('/crocodile-management/enclosure');
+        },
+        onError: (errors) => {
+          console.error(errors);
+        }
+      });
+    },
+    updateEnclosure() {
+      this.editForm.put(`/crocodile-management/enclosure/${this.editForm.id}`, {
+        onSuccess: () => {
+          this.showEditModal = false;
+          this.$inertia.reload();
+        },
+        onError: (errors) => {
+          console.error(errors);
+        }
+      });
     }
   }
 }
-</script>
+</script>    
