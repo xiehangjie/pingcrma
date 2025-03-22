@@ -33,14 +33,14 @@ class CrocodilesAndEnclosuresSeeder extends Seeder
         // 生成父母鳄鱼数据
         $parentCrocodiles = [];
         for ($i = 1; $i <= 10; $i++) {
-            $uniqueId = 'CHN-' . str_pad(rand(1, 999999999999), 12, '0', STR_PAD_LEFT) . '-' . str_pad($i, 6, '0', STR_PAD_LEFT);
-            $rfidTag = Str::upper(Str::random(8)) . '-' . Str::upper(Str::random(16));
+            $uniqueId = 'CHN-'.str_pad(rand(1, 999999999999), 12, '0', STR_PAD_LEFT).'-'.str_pad($i, 6, '0', STR_PAD_LEFT);
+            $rfidTag = Str::upper(Str::random(8)).'-'.Str::upper(Str::random(16));
             $speciesType = collect(['尼罗鳄', '湾鳄', '暹罗鳄'])->random();
             $gender = collect(['雄性', '雌性'])->random();
             // 修正日期格式
-            $birthDate = Carbon::now()->subYears(rand(1, 20))->format('Y-m-d'); 
+            $birthDate = Carbon::now()->subYears(rand(1, 20))->format('Y-m-d');
             // 使用特殊标识表示没有遗传谱系
-            $geneticLineage = 'UNKNOWN'; 
+            $geneticLineage = 'UNKNOWN';
             $age = rand(1, 20);
             $weight = rand(100, 500) + (rand(0, 99) / 100);
             $poolId = $enclosurePoolIds[array_rand($enclosurePoolIds)];
@@ -66,12 +66,12 @@ class CrocodilesAndEnclosuresSeeder extends Seeder
         // 生成普通鳄鱼数据
         $crocodiles = [];
         for ($i = 1; $i <= 20; $i++) {
-            $uniqueId = 'CHN-' . str_pad(rand(1, 999999999999), 12, '0', STR_PAD_LEFT) . '-' . str_pad($i + count($parentCrocodiles), 6, '0', STR_PAD_LEFT);
-            $rfidTag = Str::upper(Str::random(8)) . '-' . Str::upper(Str::random(16));
+            $uniqueId = 'CHN-'.str_pad(rand(1, 999999999999), 12, '0', STR_PAD_LEFT).'-'.str_pad($i + count($parentCrocodiles), 6, '0', STR_PAD_LEFT);
+            $rfidTag = Str::upper(Str::random(8)).'-'.Str::upper(Str::random(16));
             $speciesType = collect(['尼罗鳄', '湾鳄', '暹罗鳄'])->random();
             $gender = collect(['雄性', '雌性'])->random();
             // 修正日期格式
-            $birthDate = Carbon::now()->subYears(rand(1, 20))->format('Y-m-d'); 
+            $birthDate = Carbon::now()->subYears(rand(1, 20))->format('Y-m-d');
             $age = rand(1, 20);
             $weight = rand(100, 500) + (rand(0, 99) / 100);
             $poolId = $enclosurePoolIds[array_rand($enclosurePoolIds)];
