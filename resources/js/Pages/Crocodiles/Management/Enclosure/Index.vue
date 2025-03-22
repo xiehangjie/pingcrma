@@ -74,84 +74,82 @@
       </div>
 
       <!-- 数据表格 -->
-      <div v-if="!$page.loading && !$page.error" class="bg-white rounded-xl shadow-lg overflow-x-auto ring-1 ring-black ring-opacity-5">
-        <table class="min-w-full divide-y divide-gray-200">
-          <thead class="bg-gray-50">
-            <tr>
-              <!-- 圈舍编号 -->
-              <th class="px-6 py-4 text-center text-sm font-semibold text-gray-700 uppercase tracking-wider">
-                圈舍编号
-              </th>
-              <!-- 容量 -->
-              <th class="px-6 py-4 text-center text-sm font-semibold text-gray-700 uppercase tracking-wider">
-                容量
-              </th>
-              <!-- 养殖池类型 -->
-              <th class="px-6 py-4 text-center text-sm font-semibold text-gray-700 uppercase tracking-wider">
-                养殖池类型
-              </th>
-              <!-- 当前鳄鱼数量 -->
-              <th class="px-6 py-4 text-center text-sm font-semibold text-gray-700 uppercase tracking-wider">
-                当前鳄鱼数量
-              </th>
-              <!-- 状态 -->
-              <th class="px-6 py-4 text-center text-sm font-semibold text-gray-700 uppercase tracking-wider">
-                状态
-              </th>
-              <!-- 鳄鱼唯一身份标识 -->
-              <th class="px-6 py-4 text-center text-sm font-semibold text-gray-700 uppercase tracking-wider">
-                鳄鱼唯一身份标识
-              </th>
-              <!-- 操作 -->
-              <th class="px-6 py-4 text-center text-sm font-semibold text-gray-700 uppercase tracking-wider">
-                操作
-              </th>
-            </tr>
-          </thead>
-          <tbody class="bg-white divide-y divide-gray-200">
-            <tr 
-              v-for="enclosure in filteredEnclosures" 
-              :key="enclosure.id"
-              class="hover:bg-gray-50 transition-colors cursor-pointer"
-            >
-              <!-- 圈舍编号 -->
-              <td class="px-6 py-4 whitespace-nowrap text-center text-sm text-gray-700">
-                {{ enclosure.pool_id }}
-              </td>
-              <!-- 容量 -->
-              <td class="px-6 py-4 whitespace-nowrap text-center text-sm text-gray-700">
-                {{ enclosure.capacity }}
-              </td>
-              <!-- 养殖池类型 -->
-              <td class="px-6 py-4 whitespace-nowrap text-center text-sm text-gray-700">
-                {{ enclosure.pool_type }}
-              </td>
-              <!-- 当前鳄鱼数量 -->
-              <td class="px-6 py-4 whitespace-nowrap text-center text-sm text-gray-700">
-                {{ enclosure.crocodiles.length }}
-              </td>
-              <!-- 状态 -->
-              <td class="px-6 py-4 whitespace-nowrap text-center text-sm" :class="getStatusColor(enclosure)">
-                {{ getStatusText(enclosure) }}
-              </td>
-              <!-- 鳄鱼唯一身份标识 -->
-              <td class="px-6 py-4 whitespace-nowrap text-center text-sm text-gray-700">
-                <!-- 使用 pre 标签来保留换行符 -->
-                <pre>{{ getCrocodileIds(enclosure.crocodiles) }}</pre>
-              </td>
-              <!-- 操作 -->
-              <td class="px-6 py-4 whitespace-nowrap text-center text-sm text-gray-700">
-                <button 
-                  class="text-blue-500 hover:underline mr-2"
-                  @click="editEnclosurePopup(enclosure)"
-                >
-                  编辑
-                </button>
-                <button @click="deleteEnclosure(enclosure.id)" class="text-red-500 hover:underline">删除</button>
-              </td>
-            </tr>
-          </tbody>
-        </table>
+      <div class="bg-white rounded-xl shadow-lg overflow-hidden ring-1 ring-black ring-opacity-5">
+        <div class="overflow-y-auto max-h-[calc(100vh-280px)]"> <!-- 动态计算可视高度 -->
+          <table class="min-w-full divide-y divide-gray-200 relative"> <!-- 添加relative定位 -->
+            <thead class="bg-gray-50 sticky top-0 z-10"> <!-- 固定表头 -->
+              <tr>
+                <!-- 圈舍编号 -->
+                <th class="px-6 py-4 text-center text-sm font-semibold text-gray-700 uppercase tracking-wider">
+                  圈舍编号
+                </th>
+                <!-- 容量 -->
+                <th class="px-6 py-4 text-center text-sm font-semibold text-gray-700 uppercase tracking-wider">
+                  容量
+                </th>
+                <!-- 养殖池类型 -->
+                <th class="px-6 py-4 text-center text-sm font-semibold text-gray-700 uppercase tracking-wider">
+                  养殖池类型
+                </th>
+                <!-- 当前鳄鱼数量 -->
+                <th class="px-6 py-4 text-center text-sm font-semibold text-gray-700 uppercase tracking-wider">
+                  当前鳄鱼数量
+                </th>
+                <!-- 状态 -->
+                <th class="px-6 py-4 text-center text-sm font-semibold text-gray-700 uppercase tracking-wider">
+                  状态
+                </th>
+                <!-- 鳄鱼唯一身份标识 -->
+                <th class="px-6 py-4 text-center text-sm font-semibold text-gray-700 uppercase tracking-wider">
+                  鳄鱼唯一身份标识
+                </th>
+                <!-- 操作 -->
+                <th class="px-6 py-4 text-center text-sm font-semibold text-gray-700 uppercase tracking-wider">
+                  操作
+                </th>
+              </tr>
+            </thead>
+            <tbody class="bg-white divide-y divide-gray-200">
+              <tr v-for="enclosure in filteredEnclosures" :key="enclosure.id" class="hover:bg-gray-50 transition-colors cursor-pointer">
+                <!-- 圈舍编号 -->
+                <td class="px-6 py-4 whitespace-nowrap text-center text-sm text-gray-700">
+                  {{ enclosure.pool_id }}
+                </td>
+                <!-- 容量 -->
+                <td class="px-6 py-4 whitespace-nowrap text-center text-sm text-gray-700">
+                  {{ enclosure.capacity }}
+                </td>
+                <!-- 养殖池类型 -->
+                <td class="px-6 py-4 whitespace-nowrap text-center text-sm text-gray-700">
+                  {{ enclosure.pool_type }}
+                </td>
+                <!-- 当前鳄鱼数量 -->
+                <td class="px-6 py-4 whitespace-nowrap text-center text-sm text-gray-700">
+                  {{ enclosure.crocodiles.length }}
+                </td>
+                <!-- 状态 -->
+                <td class="px-6 py-4 whitespace-nowrap text-center text-sm" :class="getStatusColor(enclosure)">
+                  {{ getStatusText(enclosure) }}
+                </td>
+                <!-- 鳄鱼唯一身份标识 -->
+                <td class="px-6 py-4 whitespace-nowrap text-center text-sm text-gray-700">
+                  <!-- 使用 pre 标签来保留换行符 -->
+                  <pre>{{ getCrocodileIds(enclosure.crocodiles) }}</pre>
+                </td>
+                <!-- 操作 -->
+                <td class="px-6 py-4 whitespace-nowrap text-center text-sm text-gray-700">
+                  <button 
+                    class="text-blue-500 hover:underline mr-2"
+                    @click="editEnclosurePopup(enclosure)"
+                  >
+                    编辑
+                  </button>
+                  <button @click="deleteEnclosure(enclosure.id)" class="text-red-500 hover:underline">删除</button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
 
         <!-- 空状态 -->
         <div v-if="!enclosures.length" class="text-center py-12">
@@ -188,9 +186,11 @@
                 type="text" 
                 id="pool_id" 
                 v-model="form.pool_id" 
+                @input="validatePoolId"
                 class="mt-1 block w-full border border-gray-300 rounded-md p-2" 
                 required
               />
+              <span v-if="form.errors.pool_id" class="text-red-500 text-sm">{{ form.errors.pool_id }}</span>
             </div>
             <div class="mb-4">
               <label for="capacity" class="block text-sm font-medium text-gray-700">容量</label>
@@ -198,15 +198,18 @@
                 type="number" 
                 id="capacity" 
                 v-model="form.capacity" 
+                @input="validateCapacity"
                 class="mt-1 block w-full border border-gray-300 rounded-md p-2" 
                 required
               />
+              <span v-if="form.errors.capacity" class="text-red-500 text-sm">{{ form.errors.capacity }}</span>
             </div>
             <div class="mb-4">
               <label for="pool_type" class="block text-sm font-medium text-gray-700">养殖池类型</label>
               <select 
                 id="pool_type" 
                 v-model="form.pool_type" 
+                @change="validatePoolType"
                 class="mt-1 block w-full border border-gray-300 rounded-md p-2" 
                 required
               >
@@ -215,6 +218,7 @@
                 <option value="繁殖池">繁殖池</option>
                 <option value="病鳄隔离池">病鳄隔离池</option>
               </select>
+              <span v-if="form.errors.pool_type" class="text-red-500 text-sm">{{ form.errors.pool_type }}</span>
             </div>
             <div class="flex space-x-4">
               <button 
@@ -261,9 +265,11 @@
                 type="text" 
                 id="edit_pool_id" 
                 v-model="editForm.pool_id" 
+                @input="validateEditPoolId"
                 class="mt-1 block w-full border border-gray-300 rounded-md p-2" 
                 required
               />
+              <span v-if="editForm.errors.pool_id" class="text-red-500 text-sm">{{ editForm.errors.pool_id }}</span>
             </div>
             <div class="mb-4">
               <label for="edit_capacity" class="block text-sm font-medium text-gray-700">容量</label>
@@ -271,15 +277,18 @@
                 type="number" 
                 id="edit_capacity" 
                 v-model="editForm.capacity" 
+                @input="validateEditCapacity"
                 class="mt-1 block w-full border border-gray-300 rounded-md p-2" 
                 required
               />
+              <span v-if="editForm.errors.capacity" class="text-red-500 text-sm">{{ editForm.errors.capacity }}</span>
             </div>
             <div class="mb-4">
               <label for="edit_pool_type" class="block text-sm font-medium text-gray-700">养殖池类型</label>
               <select 
                 id="edit_pool_type" 
                 v-model="editForm.pool_type" 
+                @change="validateEditPoolType"
                 class="mt-1 block w-full border border-gray-300 rounded-md p-2" 
                 required
               >
@@ -288,6 +297,7 @@
                 <option value="繁殖池">繁殖池</option>
                 <option value="病鳄隔离池">病鳄隔离池</option>
               </select>
+              <span v-if="editForm.errors.pool_type" class="text-red-500 text-sm">{{ editForm.errors.pool_type }}</span>
             </div>
             <div class="flex space-x-4">
               <button 
@@ -487,6 +497,48 @@ export default {
           console.error(errors);
         }
       });
+    },
+    validatePoolId() {
+      if (!this.form.pool_id) {
+        this.form.setError('pool_id', '圈舍编号不能为空');
+      } else {
+        this.form.clearErrors('pool_id');
+      }
+    },
+    validateCapacity() {
+      if (!this.form.capacity || isNaN(this.form.capacity) || this.form.capacity <= 0) {
+        this.form.setError('capacity', '容量必须为正整数');
+      } else {
+        this.form.clearErrors('capacity');
+      }
+    },
+    validatePoolType() {
+      if (!this.form.pool_type) {
+        this.form.setError('pool_type', '请选择养殖池类型');
+      } else {
+        this.form.clearErrors('pool_type');
+      }
+    },
+    validateEditPoolId() {
+      if (!this.editForm.pool_id) {
+        this.editForm.setError('pool_id', '圈舍编号不能为空');
+      } else {
+        this.editForm.clearErrors('pool_id');
+      }
+    },
+    validateEditCapacity() {
+      if (!this.editForm.capacity || isNaN(this.editForm.capacity) || this.editForm.capacity <= 0) {
+        this.editForm.setError('capacity', '容量必须为正整数');
+      } else {
+        this.editForm.clearErrors('capacity');
+      }
+    },
+    validateEditPoolType() {
+      if (!this.editForm.pool_type) {
+        this.editForm.setError('pool_type', '请选择养殖池类型');
+      } else {
+        this.editForm.clearErrors('pool_type');
+      }
     }
   }
 }

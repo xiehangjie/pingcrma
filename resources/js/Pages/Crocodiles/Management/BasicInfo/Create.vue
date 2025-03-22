@@ -2,19 +2,13 @@
   <div class="max-w-3xl mx-auto">
     <Head title="添加鳄鱼信息" />
     <h1 class="mb-8 text-3xl font-bold">添加鳄鱼信息</h1>
-    
-    <!-- 错误提示 -->
-    <div v-if="Object.keys(form.errors).length > 0" class="mb-4 bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
-      <strong class="font-bold">错误！</strong>
-      <span class="block sm:inline">{{ Object.values(form.errors).join(', ') }}</span>
-    </div>
-    
+
     <!-- 成功提示 -->
     <div v-if="successMessage" class="mb-4 bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative" role="alert">
       <strong class="font-bold">成功！</strong>
       <span class="block sm:inline">{{ successMessage }}</span>
     </div>
-    
+
     <form class="mt-8 bg-white rounded-lg shadow-xl overflow-hidden" @submit.prevent="store">
       <div class="px-10 py-12 flex flex-wrap -mx-3">
         <!-- 左列 -->
@@ -30,8 +24,9 @@
             autofocus 
             autocapitalize="off" 
             placeholder="示例：CHN-860001234567-000001" 
+            :class="{ 'input-error': form.errors.unique_id, 'input-valid': !form.errors.unique_id && form.unique_id }"
           />
-          
+
           <!-- RFID 电子标签 -->
           <text-input 
             v-model="form.rfid_tag" 
@@ -41,8 +36,9 @@
             label="RFID 电子标签" 
             type="text" 
             placeholder="示例：E0040153-9A3B4C5D6E7F8A9B" 
+            :class="{ 'input-error': form.errors.rfid_tag, 'input-valid': !form.errors.rfid_tag && form.rfid_tag }"
           />
-          
+
           <!-- 物种类型 -->
           <text-input 
             v-model="form.species_type" 
@@ -51,20 +47,22 @@
             class="mt-6" 
             label="物种类型" 
             type="text"
+            :class="{ 'input-error': form.errors.species_type, 'input-valid': !form.errors.species_type && form.species_type }"
           />
-          
+
           <!-- 性别 -->
           <select-input 
             v-model="form.gender" 
             :error="form.errors.gender" 
             class="mt-6" 
             label="性别"
+            :class="{ 'input-error': form.errors.gender, 'input-valid': !form.errors.gender && form.gender }"
           >
             <option :value="null" />
             <option value="雄性">雄性</option>
             <option value="雌性">雌性</option>
           </select-input>
-          
+
           <!-- 出生日期 -->
           <text-input 
             v-model="form.birth_date" 
@@ -74,20 +72,23 @@
             label="出生日期" 
             type="date"
             :max="new Date().toISOString().split('T')[0]"
+            :class="{ 'input-error': form.errors.birth_date, 'input-valid': !form.errors.birth_date && form.birth_date }"
           />
         </div>
-        
+
         <!-- 右列 -->
         <div class="w-1/2 px-3">
           <!-- 遗传谱系 -->
           <text-input 
             v-model="form.genetic_lineage" 
+            @blur="validateRequiredField('genetic_lineage')"
             :error="form.errors.genetic_lineage" 
             class="mt-10" 
             label="遗传谱系" 
             type="text" 
+            :class="{ 'input-error': form.errors.genetic_lineage, 'input-valid': !form.errors.genetic_lineage && form.genetic_lineage }"
           />
-          
+
           <!-- 年龄 -->
           <text-input 
             v-model="form.age" 
@@ -97,8 +98,9 @@
             label="年龄" 
             type="text"
             placeholder="请输入整数"
+            :class="{ 'input-error': form.errors.age, 'input-valid': !form.errors.age && form.age }"
           />
-          
+
           <!-- 体重 -->
           <text-input 
             v-model="form.weight" 
@@ -108,8 +110,9 @@
             label="体重" 
             type="text"
             placeholder="请输入数字（可包含小数）"
+            :class="{ 'input-error': form.errors.weight, 'input-valid': !form.errors.weight && form.weight }"
           />
-          
+
           <!-- 养殖池编号 -->
           <text-input 
             v-model="form.pool_id" 
@@ -120,14 +123,17 @@
             type="text"
             placeholder="示例：860001234567"
             maxlength="12"
+            :class="{ 'input-error': form.errors.pool_id, 'input-valid': !form.errors.pool_id && form.pool_id }"
           />
-          
+
           <!-- 健康状况 -->
           <select-input 
             v-model="form.health_status" 
+            @blur="validateRequiredField('health_status')"
             :error="form.errors.health_status" 
             class="mt-6" 
             label="健康状况"
+            :class="{ 'input-error': form.errors.health_status, 'input-valid': !form.errors.health_status && form.health_status }"
           >
             <option :value="null" />
             <option value="健康">健康</option>
@@ -137,7 +143,7 @@
           </select-input>
         </div>
       </div>
-      
+
       <div class="flex px-10 py-4 bg-emerald-50 border-t border-emerald-100">
         <button 
           class="bg-gray-300 text-gray-700 px-6 py-3 rounded-md font-bold hover:bg-gray-400 focus:ring-gray-300 focus:ring-offset-2 focus:ring-opacity-50 mr-4" 
@@ -164,6 +170,16 @@ import TextInput from '@/Shared/TextInput.vue'
 import SelectInput from '@/Shared/SelectInput.vue'
 import LoadingButton from '@/Shared/LoadingButton.vue'
 
+const ERROR_MESSAGES = {
+  unique_id: '格式示例：CHN-860001234567-000001',
+  rfid_tag: '格式示例：E0040153-9A3B4C5D6E7F8A9B',
+  species_type: '仅允许文字',
+  required: '该字段为必填项',
+  pool_id: '必须是12位数字',
+  birth_date: '日期不能超过当前时间',
+  number: '必须是大于等于 {min} 的数字'
+};
+
 export default {
   components: {
     Head,
@@ -189,70 +205,108 @@ export default {
     }
   },
   methods: {
+    setError(field, message) {
+      this.form.setError(field, message);
+    },
+    clearError(field) {
+      this.form.clearErrors(field);
+    },
     // 即时验证方法
     validateUniqueId() {
-      const regex = /^[A-Z]{3}-\d{12}-\d{6}$/;
-      if (!regex.test(this.form.unique_id)) {
-        this.form.setError('unique_id', '格式示例：CHN-860001234567-000001');
+      if (this.form.unique_id) {
+        const regex = /^[A-Z]{3}-\d{12}-\d{6}$/;
+        if (!regex.test(this.form.unique_id)) {
+          this.setError('unique_id', ERROR_MESSAGES.unique_id);
+        } else {
+          this.clearError('unique_id');
+        }
       } else {
-        this.form.clearErrors('unique_id');
+        this.setError('unique_id', ERROR_MESSAGES.required);
       }
     },
 
     validateRfidTag() {
-      const regex = /^[A-Z0-9]{8}-[A-Z0-9]{16}$/;
-      if (!regex.test(this.form.rfid_tag)) {
-        this.form.setError('rfid_tag', '格式示例：E0040153-9A3B4C5D6E7F8A9B');
+      if (this.form.rfid_tag) {
+        const regex = /^[A-Z0-9]{8}-[A-Z0-9]{16}$/;
+        if (!regex.test(this.form.rfid_tag)) {
+          this.setError('rfid_tag', ERROR_MESSAGES.rfid_tag);
+        } else {
+          this.clearError('rfid_tag');
+        }
       } else {
-        this.form.clearErrors('rfid_tag');
+        this.setError('rfid_tag', ERROR_MESSAGES.required);
       }
     },
 
     validateSpeciesType() {
-      const regex = /^[\u4e00-\u9fa5a-zA-Z]+$/;
-      // 过滤非法字符
-      this.form.species_type = this.form.species_type.replace(/[^\u4e00-\u9fa5a-zA-Z]/g, '');
-      
-      if (!regex.test(this.form.species_type)) {
-        this.form.setError('species_type', '仅允许中文/英文字母');
+      if (this.form.species_type) {
+        const regex = /^[\u4e00-\u9fa5a-zA-Z]+$/;
+        // 过滤非法字符
+        this.form.species_type = this.form.species_type.replace(/[^\u4e00-\u9fa5a-zA-Z]/g, '');
+
+        if (!regex.test(this.form.species_type)) {
+          this.setError('species_type', ERROR_MESSAGES.species_type);
+        } else {
+          this.clearError('species_type');
+        }
       } else {
-        this.form.clearErrors('species_type');
+        this.setError('species_type', ERROR_MESSAGES.required);
       }
     },
 
     validateNumber(field, min = 0) {
-      // 保留数字和小数点
-      this.form[field] = this.form[field]
-        .replace(/[^0-9.]/g, '')
-        .replace(/(\..*)\./g, '$1');
+      if (this.form[field]) {
+        // 保留数字和小数点
+        this.form[field] = this.form[field]
+          .replace(/[^0-9.]/g, '')
+          .replace(/(\..*)\./g, '$1');
 
-      // 验证数字有效性
-      const value = parseFloat(this.form[field]);
-      if (isNaN(value) || value < min) {
-        this.form.setError(field, `必须大于等于 ${min}`);
+        // 验证数字有效性
+        const value = parseFloat(this.form[field]);
+        if (isNaN(value) || value < min) {
+          this.setError(field, ERROR_MESSAGES.number.replace('{min}', min));
+        } else {
+          this.clearError(field);
+        }
       } else {
-        this.form.clearErrors(field);
+        this.setError(field, ERROR_MESSAGES.required);
       }
     },
 
     validatePoolId() {
-      // 过滤非数字字符
-      this.form.pool_id = this.form.pool_id.replace(/[^0-9]/g, '');
-      
-      // 验证长度
-      if (this.form.pool_id.length !== 12) {
-        this.form.setError('pool_id', '必须是12位数字');
+      if (this.form.pool_id) {
+        // 过滤非数字字符
+        this.form.pool_id = this.form.pool_id.replace(/[^0-9]/g, '');
+
+        // 验证长度
+        if (this.form.pool_id.length !== 12) {
+          this.setError('pool_id', ERROR_MESSAGES.pool_id);
+        } else {
+          this.clearError('pool_id');
+        }
       } else {
-        this.form.clearErrors('pool_id');
+        this.setError('pool_id', ERROR_MESSAGES.required);
       }
     },
 
     validateBirthDate() {
-      const today = new Date().toISOString().split('T')[0];
-      if (this.form.birth_date > today) {
-        this.form.setError('birth_date', '日期不能超过当前时间');
+      if (this.form.birth_date) {
+        const today = new Date().toISOString().split('T')[0];
+        if (this.form.birth_date > today) {
+          this.setError('birth_date', ERROR_MESSAGES.birth_date);
+        } else {
+          this.clearError('birth_date');
+        }
       } else {
-        this.form.clearErrors('birth_date');
+        this.setError('birth_date', ERROR_MESSAGES.required);
+      }
+    },
+
+    validateRequiredField(field) {
+      if (!this.form[field] || !this.form[field].toString().trim()) {
+        this.setError(field, ERROR_MESSAGES.required);
+      } else {
+        this.clearError(field);
       }
     },
 
@@ -271,7 +325,11 @@ export default {
       });
 
       if (hasEmptyField) {
-        this.form.setError('general', '所有字段均为必填项');
+        requiredFields.forEach(field => {
+          if (!this.form[field].toString().trim()) {
+            this.setError(field, ERROR_MESSAGES.required);
+          }
+        });
         return;
       }
 
@@ -281,9 +339,13 @@ export default {
           this.successMessage = '鳄鱼信息添加成功！';
           // 清空表单
           this.form.reset();
+          this.form.clearErrors();
         },
-        onError: () => {
-          // 错误处理已经在模板中通过 form.errors 显示
+        onError: (errors) => {
+          // 处理服务器返回的错误
+          Object.keys(errors).forEach(field => {
+            this.setError(field, errors[field][0]);
+          });
         }
       });
     },
