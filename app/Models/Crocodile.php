@@ -6,7 +6,6 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo; // 引入 BelongsTo 类
 
-
 class Crocodile extends Model
 {
     use HasFactory;
@@ -29,5 +28,4 @@ class Crocodile extends Model
     {
         return $this->belongsTo(Enclosure::class);
     }
-    
 }
