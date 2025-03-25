@@ -40,7 +40,7 @@ class CrocodilesAndEnclosuresSeeder extends Seeder
             // 修正日期格式
             $birthDate = Carbon::now()->subYears(rand(1, 20))->format('Y-m-d');
             // 使用特殊标识表示没有遗传谱系
-            $geneticLineage = 'UNKNOWN';
+            $geneticLineage = '未知';
             $age = rand(1, 20);
             $weight = rand(100, 500) + (rand(0, 99) / 100);
             $poolId = $enclosurePoolIds[array_rand($enclosurePoolIds)];

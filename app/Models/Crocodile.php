@@ -4,6 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo; // 引入 BelongsTo 类
+
 
 class Crocodile extends Model
 {
@@ -25,6 +27,7 @@ class Crocodile extends Model
 
     public function pool(): BelongsTo
     {
-        return $this->belongsTo(Pool::class);
+        return $this->belongsTo(Enclosure::class);
     }
+    
 }
